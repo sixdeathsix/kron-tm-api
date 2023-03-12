@@ -3,29 +3,23 @@ package com.example.krontmapi.config;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.extern.java.Log;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 
-@Slf4j
 @Service
-@Log
 public class JwtService {
     private final SecretKey secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode("753778214125432A462D4A614E645267556B58703273357638792F423F452847"));
 
-    private final Date issuedDate = new Date(System.currentTimeMillis());
-    private final Date expationDate = new Date(System.currentTimeMillis() + 1000 * 60 * 2);
 
     public String generateToken(UserDetails userDetails) {
         return Jwts
                 .builder()
                 .setSubject(userDetails.getUsername())
-                .setIssuedAt(issuedDate)
-                .setExpiration(expationDate)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 1))
                 .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -39,9 +33,9 @@ public class JwtService {
         }
     }
 
-    public String extractUsername(String token) {
+    public String extractToken(String token) {
         try {
-            Claims claims = Jwts.parserBuilder()
+            Claims claims =  Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(token)

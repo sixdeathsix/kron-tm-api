@@ -59,7 +59,7 @@ public class AuthService {
                 )
         );
 
-        var user = userRepository.findByUsername(request.getUsername()).get();
+        var user = userRepository.findByUsername(request.getUsername()).orElseThrow();
         var jwtToken = jwtService.generateToken(user);
 
         return AuthResponse

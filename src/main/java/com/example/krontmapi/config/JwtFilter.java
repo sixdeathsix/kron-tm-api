@@ -5,7 +5,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import java.io.IOException;
 
@@ -15,7 +14,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
@@ -41,7 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
         final String token = header.substring(7);
 
         if (jwtService.validateToken(token)) {
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtService.extractUsername(token));
+            UserDetails userDetails = userDetailsService.loadUserByUsername(jwtService.extractToken(token));
             UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                     userDetails,
                     null,
@@ -50,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authToken);
         }   else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            response.getWriter().write(jwtService.extractUsername(token));
+            response.getWriter().write(jwtService.extractToken(token));
             return;
         }
 
