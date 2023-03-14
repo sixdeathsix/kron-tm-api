@@ -17,6 +17,8 @@ public class Object {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer object_id;
+
+    private String object_name;
     private String flange_no;
     private String description;
 

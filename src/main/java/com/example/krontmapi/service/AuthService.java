@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthService {
 
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -52,6 +51,7 @@ public class AuthService {
     }
 
     public AuthResponse authorization(AuthRequest request) {
+
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
@@ -68,5 +68,14 @@ public class AuthService {
                 .role(user.getRole())
                 .accessToken(jwtToken)
                 .build();
+    }
+
+    public User getUser(Integer id) throws Exception {
+
+        if(!userRepository.existsById(id)) {
+            throw new Exception("Пользователь не найден");
+        }
+
+        return userRepository.findById(id).get();
     }
 }

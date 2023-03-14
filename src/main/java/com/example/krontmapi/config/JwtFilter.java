@@ -46,7 +46,7 @@ public class JwtFilter extends OncePerRequestFilter {
                     userDetails.getAuthorities()
             );
             SecurityContextHolder.getContext().setAuthentication(authToken);
-        }   else {
+        } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             response.getWriter().write(jwtService.extractToken(token));
             return;
