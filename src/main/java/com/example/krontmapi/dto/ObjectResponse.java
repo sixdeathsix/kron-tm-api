@@ -1,6 +1,6 @@
 package com.example.krontmapi.dto;
 
-import com.example.krontmapi.entity.EventType;
+import com.example.krontmapi.entity.Event;
 import com.example.krontmapi.entity.ObjectType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,5 +18,5 @@ public class ObjectResponse {
     private String flange_no;
     private String description;
     private ObjectType objectType;
-    private EventType property;
+    private Event event;
 }

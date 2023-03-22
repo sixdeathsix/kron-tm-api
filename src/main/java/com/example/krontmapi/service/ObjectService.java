@@ -35,8 +35,8 @@ public class ObjectService {
 
         for (Object obj : objects) {
 
-            var property = propertyRepository.findByObject_Object_idAndProperty_id(obj.getObject_id(), 1);
-            var event = eventRepository.findByPropertyProperty_id(property.getProperty_id());
+            var property = propertyRepository.findById(1);
+            var event = eventRepository.findByProperty(property.get());
 
             ObjectResponse objectDto = ObjectResponse.builder()
                     .object_id(obj.getObject_id())
@@ -44,7 +44,7 @@ public class ObjectService {
                     .flange_no(obj.getFlange_no())
                     .description(obj.getDescription())
                     .objectType(obj.getObjectType())
-                    .property(event.getEventType())
+                    .event(event)
                     .build();
 
             objectsDto.add(objectDto);
