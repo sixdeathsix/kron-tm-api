@@ -35,8 +35,8 @@ public class ObjectService {
 
         for (Object obj : objects) {
 
-            var property = propertyRepository.findById(1);
-            var event = eventRepository.findByProperty(property.get());
+            var property = propertyRepository.findById(obj.getObject_id()).get();
+            var event = eventRepository.getLastEventFromObject(property.getProperty_id());
 
             ObjectResponse objectDto = ObjectResponse.builder()
                     .object_id(obj.getObject_id())
