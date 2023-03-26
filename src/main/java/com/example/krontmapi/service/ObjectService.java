@@ -1,11 +1,10 @@
 package com.example.krontmapi.service;
 
-import com.example.krontmapi.dto.ObjectResponse;
+import com.example.krontmapi.dto.MonitoringResponse;
 import com.example.krontmapi.entity.ObjectType;
 import com.example.krontmapi.repository.EventRepository;
 import com.example.krontmapi.repository.ObjectRepository;
 import com.example.krontmapi.repository.ObjectTypeRepository;
-import com.example.krontmapi.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +19,9 @@ public class ObjectService {
 
     private final ObjectRepository objectRepository;
     private final ObjectTypeRepository objectTypeRepository;
-    private final PropertyRepository propertyRepository;
     private final EventRepository eventRepository;
 
-    public List<ObjectResponse> getAll() throws Exception {
+    public List<MonitoringResponse> getAll() throws Exception {
 
         var objects = objectRepository.findAll();
 
@@ -31,14 +29,13 @@ public class ObjectService {
             throw new Exception("Объекты не найдены");
         }
 
-        List<ObjectResponse> objectsDto = new ArrayList<>();
+        List<MonitoringResponse> objectsDto = new ArrayList<>();
 
         for (Object obj : objects) {
 
-            var property = propertyRepository.findById(obj.getObject_id()).get();
-            var event = eventRepository.getLastEventFromObject(property.getProperty_id());
+            var event = eventRepository.getLastEventsFromObject(obj.getObject_id());
 
-            ObjectResponse objectDto = ObjectResponse.builder()
+            MonitoringResponse objectDto = MonitoringResponse.builder()
                     .object_id(obj.getObject_id())
                     .object_name(obj.getObject_name())
                     .flange_no(obj.getFlange_no())
@@ -51,15 +48,6 @@ public class ObjectService {
         }
 
         return objectsDto;
-    }
-
-    public Object getOneObject(Integer id) throws Exception {
-
-        if (!objectRepository.existsById(id)) {
-            throw new Exception("Объект не найден");
-        }
-
-        return objectRepository.findById(id).get();
     }
 
     public List<ObjectType> getAllTypes() throws Exception {

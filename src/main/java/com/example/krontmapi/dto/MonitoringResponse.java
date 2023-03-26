@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ObjectResponse {
+public class MonitoringResponse {
 
     private Integer object_id;
     private String object_name;
