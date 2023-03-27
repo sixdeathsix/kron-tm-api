@@ -8,14 +8,12 @@ import com.example.krontmapi.repository.EventTypeRepository;
 import com.example.krontmapi.repository.ObjectRepository;
 import com.example.krontmapi.repository.PropertyLogRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EventService {

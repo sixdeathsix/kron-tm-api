@@ -1,8 +1,6 @@
 package com.example.krontmapi.service;
 
-import com.example.krontmapi.dto.ObjectEventsResponse;
 import com.example.krontmapi.dto.ObjectPropertiesResponse;
-import com.example.krontmapi.entity.Event;
 import com.example.krontmapi.entity.Property;
 import com.example.krontmapi.repository.EventRepository;
 import com.example.krontmapi.repository.ObjectRepository;
