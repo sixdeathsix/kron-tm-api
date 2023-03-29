@@ -24,7 +24,7 @@ public class EventService {
 
     private final PropertyLogRepository propertyLogRepository;
 
-    public List<ObjectEventsResponse> getOneObjectEvents(Integer id, String date_start, String date_end) throws Exception {
+    public List<ObjectEventsResponse> getObjectEvents(Integer id, String date_start, String date_end) throws Exception {
 
         if (!objectRepository.existsById(id)) {
             throw new Exception("Объект не найден");
