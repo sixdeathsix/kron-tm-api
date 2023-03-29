@@ -15,18 +15,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ObjectPropertiesResponse {
-    private Integer property_id;
-    private Object object;
-    private PropertyType propertyType;
-    private Path path;
-    private Integer property_log_id;
-    private String value;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
-    private LocalDateTime update_date;
-    private ValueType valueType;
-    private Integer event_id;
+
+    private String flange_no;
+    private String property_type;
+    private String path;
+    private Float value;
+    private String value_type;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime event_date;
-    private EventType eventType;
-    private Category category;
+    private String event_type;
+
 }

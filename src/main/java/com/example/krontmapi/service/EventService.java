@@ -45,15 +45,13 @@ public class EventService {
             var propertyLog = propertyLogRepository.getLogByEvent(evt.getEvent_id());
 
             ObjectEventsResponse eventDto = ObjectEventsResponse.builder()
-                    .event_id(evt.getEvent_id())
+                    .object_name(evt.getProperty().getObject().getObject_name())
+                    .flange_no(evt.getProperty().getObject().getFlange_no())
+                    .event_type(evt.getEventType().getEvent_type())
+                    .category(evt.getCategory().getCategory())
                     .event_date(evt.getEvent_date())
-                    .property(evt.getProperty())
-                    .eventType(evt.getEventType())
-                    .category(evt.getCategory())
-                    .property_log_id(propertyLog.getProperty_log_id())
+                    .property_type(evt.getProperty().getPropertyType().getProperty_type())
                     .value(propertyLog.getValue())
-                    .update_date(propertyLog.getUpdate_date())
-                    .valueType(propertyLog.getValueType())
                     .build();
 
             eventsDto.add(eventDto);

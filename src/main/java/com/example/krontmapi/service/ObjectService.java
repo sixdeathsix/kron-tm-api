@@ -38,10 +38,11 @@ public class ObjectService {
             MonitoringResponse objectDto = MonitoringResponse.builder()
                     .object_id(obj.getObject_id())
                     .object_name(obj.getObject_name())
+                    .object_type(obj.getObjectType().getObject_type())
                     .flange_no(obj.getFlange_no())
                     .description(obj.getDescription())
-                    .objectType(obj.getObjectType())
-                    .event(event)
+                    .event_type(event.getEventType().getEvent_type())
+                    .event_date(event.getEvent_date())
                     .build();
 
             objectsDto.add(objectDto);

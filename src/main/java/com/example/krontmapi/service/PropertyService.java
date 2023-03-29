@@ -2,10 +2,8 @@ package com.example.krontmapi.service;
 
 import com.example.krontmapi.dto.ObjectPropertiesResponse;
 import com.example.krontmapi.entity.Property;
-import com.example.krontmapi.repository.EventRepository;
-import com.example.krontmapi.repository.ObjectRepository;
-import com.example.krontmapi.repository.PropertyLogRepository;
-import com.example.krontmapi.repository.PropertyRepository;
+import com.example.krontmapi.entity.PropertyType;
+import com.example.krontmapi.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +15,9 @@ import java.util.List;
 public class PropertyService {
 
     private final PropertyRepository propertyRepository;
-    private final ObjectRepository objectRepository;
+    private final PropertyTypeRepository propertyTypeRepository;
     private final PropertyLogRepository propertyLogRepository;
+    private final ObjectRepository objectRepository;
     private final EventRepository eventRepository;
 
     public List<ObjectPropertiesResponse> getObjectProperties(Integer id) throws Exception {
@@ -39,18 +38,13 @@ public class PropertyService {
             var event = eventRepository.getLastByPropertyId(prp.getProperty_id());
 
             ObjectPropertiesResponse propertyDto = ObjectPropertiesResponse.builder()
-                    .property_id(prp.getProperty_id())
-                    .object(prp.getObject())
-                    .propertyType(prp.getPropertyType())
-                    .path(prp.getPath())
-                    .property_log_id(propertyLog.getProperty_log_id())
+                    .flange_no(object.getFlange_no())
+                    .property_type(prp.getPropertyType().getProperty_type())
+                    .path(prp.getPath().getPath())
                     .value(propertyLog.getValue())
-                    .update_date(propertyLog.getUpdate_date())
-                    .valueType(propertyLog.getValueType())
-                    .event_id(event.getEvent_id())
+                    .value_type(propertyLog.getValueType().getValue_type())
                     .event_date(event.getEvent_date())
-                    .eventType(event.getEventType())
-                    .category(event.getCategory())
+                    .event_type(event.getEventType().getEvent_type())
                     .build();
 
             propertiesDto.add(propertyDto);
@@ -59,8 +53,8 @@ public class PropertyService {
         return propertiesDto;
     }
 
-    public List<Property> getAllTypes() throws Exception {
-        var properties = propertyRepository.findAll();
+    public List<PropertyType> getAllTypes() throws Exception {
+        var properties = propertyTypeRepository.findAll();
 
         if (properties.isEmpty()) {
             throw new Exception("Ничего не найдено");

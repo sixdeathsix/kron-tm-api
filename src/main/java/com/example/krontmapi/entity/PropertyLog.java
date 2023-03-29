@@ -19,7 +19,7 @@ public class PropertyLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer property_log_id;
 
-    private String value;
+    private Float value;
 
     private LocalDateTime update_date;
 

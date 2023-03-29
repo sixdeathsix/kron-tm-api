@@ -21,7 +21,6 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer event_id;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime event_date;
 
     @ManyToOne
