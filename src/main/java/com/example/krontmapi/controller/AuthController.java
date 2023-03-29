@@ -16,9 +16,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity registration(
-            @RequestBody RegisterRequest request
-    ) {
+    public ResponseEntity registration(@RequestBody RegisterRequest request) {
         try {
             return ResponseEntity.ok(authService.registration(request));
         } catch (Exception e) {
@@ -27,9 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/autharization")
-    public ResponseEntity authorization(
-            @RequestBody AuthRequest request
-    ) {
+    public ResponseEntity authorization(@RequestBody AuthRequest request) {
         try {
             return ResponseEntity.ok(authService.authorization(request));
         } catch (Exception e) {
