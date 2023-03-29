@@ -1,7 +1,5 @@
 package com.example.krontmapi.dto;
 
-import com.example.krontmapi.entity.*;
-import com.example.krontmapi.entity.Object;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ObjectPropertiesResponse {
-
     private String flange_no;
     private String property_type;
     private String path;

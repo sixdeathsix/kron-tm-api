@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MonitoringResponse {
-
     private Integer object_id;
     private String object_name;
     private String object_type;
