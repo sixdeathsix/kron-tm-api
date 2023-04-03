@@ -52,6 +52,8 @@ public class EventService {
                     .event_date(evt.getEvent_date())
                     .property_type(evt.getProperty().getPropertyType().getProperty_type())
                     .value(propertyLog.getValue())
+                    .loc_x(evt.getProperty().getObject().getLoc_x())
+                    .loc_y(evt.getProperty().getObject().getLoc_y())
                     .build();
 
             eventsDto.add(eventDto);

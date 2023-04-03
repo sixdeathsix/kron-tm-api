@@ -25,5 +25,7 @@ public class Object {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "object_type_id")
     private ObjectType objectType;
+    private String loc_x;
+    private String loc_y;
 
 }

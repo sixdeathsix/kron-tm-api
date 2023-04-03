@@ -12,10 +12,19 @@ public class ObjectController {
 
     private final ObjectService objectService;
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity getAllObjects() {
         try {
-            return ResponseEntity.ok(objectService.getAll());
+            return ResponseEntity.ok(objectService.getAllObjects());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/monitoring")
+    public ResponseEntity getAllMonitoringObjects() {
+        try {
+            return ResponseEntity.ok(objectService.getAllMonitoringObjects());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

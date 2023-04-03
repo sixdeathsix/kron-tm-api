@@ -21,7 +21,17 @@ public class ObjectService {
     private final ObjectTypeRepository objectTypeRepository;
     private final EventRepository eventRepository;
 
-    public List<MonitoringResponse> getAll() throws Exception {
+    public List<Object> getAllObjects() throws Exception {
+        var objects = objectRepository.findAll();
+
+        if (objects.isEmpty()) {
+            throw new Exception("Ничего не найдено");
+        }
+
+        return objects;
+    }
+
+    public List<MonitoringResponse> getAllMonitoringObjects() throws Exception {
 
         var objects = objectRepository.findAll();
 

@@ -21,4 +21,6 @@ public class ObjectEventsResponse {
     private LocalDateTime event_date;
     private String property_type;
     private Float value;
+    private String loc_x;
+    private String loc_y;
 }
