@@ -24,22 +24,7 @@ public class EventService {
 
     private final PropertyLogRepository propertyLogRepository;
 
-    public List<ObjectEventsResponse> getObjectEvents(Integer id, String date_start, String date_end) throws Exception {
-
-        if (!objectRepository.existsById(id)) {
-            throw new Exception("Объект не найден");
-        }
-
-        List<ObjectEventsResponse> eventsDto = new ArrayList<>();
-
-        List<Event> events = null;
-
-        if (Objects.equals(date_start, "null") || Objects.equals(date_end, "null")) {
-            events = eventRepository.getListEventsFromObject(id);
-        } else {
-            events = eventRepository.getListEventsFromObjectWithDate(id, date_start, date_end);
-        }
-
+    private List<ObjectEventsResponse> getObjectEventsResponses(List<ObjectEventsResponse> eventsDto, List<Event> events) {
         for (Event evt : events) {
 
             var propertyLog = propertyLogRepository.getLogByEvent(evt.getEvent_id());
@@ -60,6 +45,40 @@ public class EventService {
         }
 
         return eventsDto;
+    }
+
+    public List<ObjectEventsResponse> getObjectEvents(String date) throws Exception {
+
+        List<ObjectEventsResponse> eventsDto = new ArrayList<>();
+
+        List<Event> events = null;
+
+        if (Objects.equals(date, "null")) {
+            events = eventRepository.getListEvents();
+        } else {
+            events = eventRepository.getListEventsWithDate(date);
+        }
+
+        return getObjectEventsResponses(eventsDto, events);
+    }
+
+    public List<ObjectEventsResponse> getObjectEventsFromObject(Integer id, String date_start, String date_end) throws Exception {
+
+        if (!objectRepository.existsById(id)) {
+            throw new Exception("Объект не найден");
+        }
+
+        List<ObjectEventsResponse> eventsDto = new ArrayList<>();
+
+        List<Event> events = null;
+
+        if (Objects.equals(date_start, "null") || Objects.equals(date_end, "null")) {
+            events = eventRepository.getListEventsFromObject(id);
+        } else {
+            events = eventRepository.getListEventsFromObjectWithDate(id, date_start, date_end);
+        }
+
+        return getObjectEventsResponses(eventsDto, events);
     }
 
     public List<EventType> getAllTypes() throws Exception {
