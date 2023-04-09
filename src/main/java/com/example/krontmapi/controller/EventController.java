@@ -13,9 +13,9 @@ public class EventController {
     private final EventService eventService;
 
     @GetMapping()
-    public ResponseEntity getObjectEvents(@RequestParam String date) {
+    public ResponseEntity getObjectEvents(@RequestParam String id, @RequestParam String date_start, @RequestParam String date_end) {
         try {
-            return ResponseEntity.ok(eventService.getObjectEvents(date));
+            return ResponseEntity.ok(eventService.getObjectEvents(id, date_start, date_end));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

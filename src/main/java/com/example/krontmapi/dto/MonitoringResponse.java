@@ -21,4 +21,5 @@ public class MonitoringResponse {
     private String event_type;
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime event_date;
+    private Float value;
 }

@@ -1,5 +1,6 @@
 package com.example.krontmapi.repository;
 
+import com.example.krontmapi.entity.Property;
 import com.example.krontmapi.entity.PropertyLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,4 +13,7 @@ public interface PropertyLogRepository extends JpaRepository<PropertyLog, Intege
 
     @Query(value = "select * from property_logs where property_id = :property_id order by property_log_id desc limit 1", nativeQuery = true)
     PropertyLog getLastByPropertyId(@Param("property_id") Integer property_id);
+
+
+    PropertyLog findTopByPropertyOrderByValueDesc(Property property);
 }

@@ -47,16 +47,16 @@ public class EventService {
         return eventsDto;
     }
 
-    public List<ObjectEventsResponse> getObjectEvents(String date) throws Exception {
+    public List<ObjectEventsResponse> getObjectEvents(String id, String date_start, String date_end) throws Exception {
 
         List<ObjectEventsResponse> eventsDto = new ArrayList<>();
 
         List<Event> events = null;
 
-        if (Objects.equals(date, "null")) {
-            events = eventRepository.getListEvents();
+        if (Objects.equals(date_start, "null") || Objects.equals(date_end, "null")) {
+            events = eventRepository.getListEvents(id);
         } else {
-            events = eventRepository.getListEventsWithDate(date);
+            events = eventRepository.getListEventsWithDate(id, date_start, date_end);
         }
 
         return getObjectEventsResponses(eventsDto, events);

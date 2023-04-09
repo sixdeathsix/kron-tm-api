@@ -11,11 +11,11 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
     @Query(value="select e.event_id, e.event_date, e.category_id, e.event_type_id, e.property_id from events e left join properties p on p.property_id = e.property_id left join objects o on o.object_id = p.object_id where o.object_id =:object_id order by e.event_id DESC limit 1", nativeQuery=true)
     Event getLastEventsFromObject(@Param("object_id") Integer object_id);
 
-    @Query(value="select e.event_id, e.event_date, e.category_id, e.event_type_id, e.property_id from events e left join properties p on p.property_id = e.property_id left join objects o on o.object_id = p.object_id where e.event_date = CURRENT_DATE order by e.event_id DESC", nativeQuery=true)
-    List<Event> getListEvents();
+    @Query(value="select e.event_id, e.event_date, e.category_id, e.event_type_id, e.property_id from events e left join properties p on p.property_id = e.property_id left join objects o on o.object_id = p.object_id where e.event_date = CURRENT_DATE and o.object_id like %:object_id order by e.event_id DESC", nativeQuery=true)
+    List<Event> getListEvents(@Param("object_id") String object_id);
 
-    @Query(value="select e.event_id, e.event_date, e.category_id, e.event_type_id, e.property_id from events e left join properties p on p.property_id = e.property_id left join objects o on o.object_id = p.object_id where e.event_date like %:date% order by e.event_date DESC", nativeQuery=true)
-    List<Event> getListEventsWithDate(@Param("date") String date);
+    @Query(value="select e.event_id, e.event_date, e.category_id, e.event_type_id, e.property_id from events e left join properties p on p.property_id = e.property_id left join objects o on o.object_id = p.object_id where e.event_date between :date_start and :date_end and o.object_id like %:object_id order by e.event_date DESC", nativeQuery=true)
+    List<Event> getListEventsWithDate(@Param("object_id") String object_id, @Param("date_start") String date_start, @Param("date_end") String date_end);
 
     @Query(value="select e.event_id, e.event_date, e.category_id, e.event_type_id, e.property_id from events e left join properties p on p.property_id = e.property_id left join objects o on o.object_id = p.object_id where o.object_id = :object_id order by e.event_id DESC limit 5", nativeQuery=true)
     List<Event> getListEventsFromObject(@Param("object_id") Integer object_id);
