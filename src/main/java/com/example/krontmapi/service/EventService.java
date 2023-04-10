@@ -1,5 +1,6 @@
 package com.example.krontmapi.service;
 
+import com.example.krontmapi.dto.CheckerBoardResponse;
 import com.example.krontmapi.dto.ObjectEventsResponse;
 import com.example.krontmapi.dto.TwohoursResponse;
 import com.example.krontmapi.entity.Event;
@@ -73,6 +74,29 @@ public class EventService {
         return getObjectEventsResponses(eventsDto, events);
     }
 
+    public List<CheckerBoardResponse> getCheckerBoardFromObject(Integer id, String date) {
+
+        List<CheckerBoardResponse> checkerBoardDto = new ArrayList<>();
+
+        List<Event> events = eventRepository.getCheckerBoardFromObject(id, date);
+
+        for (Event evt : events) {
+
+            var tmr = eventRepository.getTomorrowValue(evt.getProperty().getObject().getObject_id(), evt.getEvent_date());
+
+            CheckerBoardResponse dto = CheckerBoardResponse.builder()
+                    .object_id(evt.getProperty().getObject().getObject_id())
+                    .object_name(evt.getProperty().getObject().getObject_name())
+                    .event_date(evt.getEvent_date())
+                    .value(evt.getProperty_value() - tmr)
+                    .build();
+
+            checkerBoardDto.add(dto);
+        }
+
+        return checkerBoardDto;
+    }
+
     public List<TwohoursResponse> getTwohoursFromObject(Integer id, String date) {
 
         List<TwohoursResponse> twohoursDto = new ArrayList<>();
@@ -81,18 +105,43 @@ public class EventService {
 
         for (Event evt : events) {
 
+            var tmr = eventRepository.getTomorrowValue(evt.getProperty().getObject().getObject_id(), evt.getEvent_date());
+
             TwohoursResponse dto = TwohoursResponse.builder()
                     .object_id(evt.getProperty().getObject().getObject_id())
                     .object_name(evt.getProperty().getObject().getObject_name())
                     .event_date(evt.getEvent_date())
                     .flange_no(evt.getProperty().getObject().getFlange_no())
-                    .value(evt.getProperty_value())
+                    .value(evt.getProperty_value() - tmr)
                     .build();
 
             twohoursDto.add(dto);
         }
 
         return twohoursDto;
+    }
+
+    public List<CheckerBoardResponse> getTrendsFromObject(String start, String end, Integer id) {
+
+        List<CheckerBoardResponse> trendsBoardDto = new ArrayList<>();
+
+        List<Event> events = eventRepository.getTrends(start, end, id);
+
+        for (Event evt : events) {
+
+            var tmr = eventRepository.getTomorrowValue(evt.getProperty().getObject().getObject_id(), evt.getEvent_date());
+
+            CheckerBoardResponse dto = CheckerBoardResponse.builder()
+                    .object_id(evt.getProperty().getObject().getObject_id())
+                    .object_name(evt.getProperty().getObject().getObject_name())
+                    .event_date(evt.getEvent_date())
+                    .value(evt.getProperty_value() - tmr)
+                    .build();
+
+            trendsBoardDto.add(dto);
+        }
+
+        return trendsBoardDto;
     }
 
     public List<EventType> getAllTypes() throws Exception {

@@ -12,15 +12,10 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MonitoringResponse {
+public class CheckerBoardResponse {
     private Integer object_id;
     private String object_name;
-    private String object_type;
-    private String flange_no;
-    private String description;
-    private String event_type;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime event_date;
     private Float value;
-    private Float tomorrow_value;
 }

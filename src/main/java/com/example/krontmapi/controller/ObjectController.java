@@ -4,6 +4,7 @@ import com.example.krontmapi.service.ObjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.krontmapi.entity.Object;
 
 @RestController
 @RequestMapping("/api/v1/object")
@@ -34,6 +35,15 @@ public class ObjectController {
     public ResponseEntity getAllObjectTypes() {
         try {
             return ResponseEntity.ok(objectService.getAllTypes());
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping()
+    public ResponseEntity createObject (@RequestBody Object obj) {
+        try {
+            return ResponseEntity.ok(objectService.createObject(obj));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

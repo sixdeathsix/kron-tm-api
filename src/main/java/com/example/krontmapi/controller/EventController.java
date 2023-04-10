@@ -47,4 +47,22 @@ public class EventController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/checkerboard")
+    public ResponseEntity getCheckerBoardFromObject(@RequestParam Integer id, @RequestParam String date) {
+        try {
+            return ResponseEntity.ok(eventService.getCheckerBoardFromObject(id, date));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/trends")
+    public ResponseEntity getTrendsFromObject(@RequestParam String start, @RequestParam String end, @RequestParam Integer id) {
+        try {
+            return ResponseEntity.ok(eventService.getTrendsFromObject(start, end, id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
