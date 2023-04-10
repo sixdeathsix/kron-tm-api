@@ -1,6 +1,7 @@
 package com.example.krontmapi.service;
 
 import com.example.krontmapi.dto.ObjectEventsResponse;
+import com.example.krontmapi.dto.TwohoursResponse;
 import com.example.krontmapi.entity.Event;
 import com.example.krontmapi.entity.EventType;
 import com.example.krontmapi.repository.EventRepository;
@@ -18,16 +19,11 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class EventService {
 
-    private final ObjectRepository objectRepository;
     private final EventTypeRepository eventTypeRepository;
     private final EventRepository eventRepository;
 
-    private final PropertyLogRepository propertyLogRepository;
-
     private List<ObjectEventsResponse> getObjectEventsResponses(List<ObjectEventsResponse> eventsDto, List<Event> events) {
         for (Event evt : events) {
-
-            var propertyLog = propertyLogRepository.getLogByEvent(evt.getEvent_id());
 
             ObjectEventsResponse eventDto = ObjectEventsResponse.builder()
                     .object_name(evt.getProperty().getObject().getObject_name())
@@ -36,7 +32,7 @@ public class EventService {
                     .category(evt.getCategory().getCategory())
                     .event_date(evt.getEvent_date())
                     .property_type(evt.getProperty().getPropertyType().getProperty_type())
-                    .value(propertyLog.getValue())
+                    .value(evt.getProperty_value())
                     .loc_x(evt.getProperty().getObject().getLoc_x())
                     .loc_y(evt.getProperty().getObject().getLoc_y())
                     .build();
@@ -64,10 +60,6 @@ public class EventService {
 
     public List<ObjectEventsResponse> getObjectEventsFromObject(Integer id, String date_start, String date_end) throws Exception {
 
-        if (!objectRepository.existsById(id)) {
-            throw new Exception("Объект не найден");
-        }
-
         List<ObjectEventsResponse> eventsDto = new ArrayList<>();
 
         List<Event> events = null;
@@ -79,6 +71,28 @@ public class EventService {
         }
 
         return getObjectEventsResponses(eventsDto, events);
+    }
+
+    public List<TwohoursResponse> getTwohoursFromObject(Integer id, String date) {
+
+        List<TwohoursResponse> twohoursDto = new ArrayList<>();
+
+        List<Event> events = eventRepository.getTwohoursFromObject(id, date);
+
+        for (Event evt : events) {
+
+            TwohoursResponse dto = TwohoursResponse.builder()
+                    .object_id(evt.getProperty().getObject().getObject_id())
+                    .object_name(evt.getProperty().getObject().getObject_name())
+                    .event_date(evt.getEvent_date())
+                    .flange_no(evt.getProperty().getObject().getFlange_no())
+                    .value(evt.getProperty_value())
+                    .build();
+
+            twohoursDto.add(dto);
+        }
+
+        return twohoursDto;
     }
 
     public List<EventType> getAllTypes() throws Exception {

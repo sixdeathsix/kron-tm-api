@@ -38,4 +38,13 @@ public class EventController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @GetMapping("/twohours")
+    public ResponseEntity getTwohoursFromObject(@RequestParam Integer id, @RequestParam String date) {
+        try {
+            return ResponseEntity.ok(eventService.getTwohoursFromObject(id, date));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

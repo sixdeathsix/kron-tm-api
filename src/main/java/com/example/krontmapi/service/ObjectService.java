@@ -22,7 +22,6 @@ public class ObjectService {
     private final ObjectRepository objectRepository;
     private final ObjectTypeRepository objectTypeRepository;
     private final EventRepository eventRepository;
-    private final PropertyLogRepository propertyLogRepository;
 
     public List<Object> getAllObjects() throws Exception {
         var objects = objectRepository.findAll();
@@ -47,7 +46,6 @@ public class ObjectService {
         for (Object obj : objects) {
 
             var event = eventRepository.getLastEventsFromObject(obj.getObject_id());
-            var propertylog = propertyLogRepository.findTopByPropertyOrderByValueDesc(event.getProperty());
 
             MonitoringResponse objectDto = MonitoringResponse.builder()
                     .object_id(obj.getObject_id())
@@ -57,7 +55,7 @@ public class ObjectService {
                     .description(obj.getDescription())
                     .event_type(event.getEventType().getEvent_type())
                     .event_date(event.getEvent_date())
-                    .value(propertylog.getValue())
+                    .value(event.getProperty_value())
                     .build();
 
             objectsDto.add(objectDto);

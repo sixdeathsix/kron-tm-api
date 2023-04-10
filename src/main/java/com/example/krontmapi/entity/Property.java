@@ -18,6 +18,10 @@ public class Property {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer property_id;
 
+    @ManyToOne
+    @JoinColumn(name = "value_type_id")
+    private ValueType property_value_type;
+
     @OneToOne
     @JoinColumn(name = "object_id")
     private Object object;

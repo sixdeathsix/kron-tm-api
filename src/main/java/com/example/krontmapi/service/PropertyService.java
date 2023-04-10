@@ -16,7 +16,6 @@ public class PropertyService {
 
     private final PropertyRepository propertyRepository;
     private final PropertyTypeRepository propertyTypeRepository;
-    private final PropertyLogRepository propertyLogRepository;
     private final ObjectRepository objectRepository;
     private final EventRepository eventRepository;
 
@@ -34,17 +33,16 @@ public class PropertyService {
 
         for (Property prp : properties) {
 
-            var propertyLog = propertyLogRepository.getLastByPropertyId(prp.getProperty_id());
             var event = eventRepository.getLastByPropertyId(prp.getProperty_id());
 
             ObjectPropertiesResponse propertyDto = ObjectPropertiesResponse.builder()
                     .flange_no(object.getFlange_no())
                     .property_type(prp.getPropertyType().getProperty_type())
                     .path(prp.getPath().getPath())
-                    .value(propertyLog.getValue())
-                    .value_type(propertyLog.getValueType().getValue_type())
-                    .event_date(event.getEvent_date())
-                    .event_type(event.getEventType().getEvent_type())
+                    .value(event == null ? null : event.getProperty_value())
+                    .value_type(prp.getProperty_value_type().getValue_type())
+                    .event_date(event == null ? null : event.getEvent_date())
+                    .event_type(event == null ? null : event.getEventType().getEvent_type())
                     .build();
 
             propertiesDto.add(propertyDto);

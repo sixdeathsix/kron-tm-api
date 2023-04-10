@@ -23,6 +23,8 @@ public class Event {
 
     private LocalDateTime event_date;
 
+    private Float property_value;
+
     @ManyToOne
     @JoinColumn(name = "property_id")
     private Property property;
