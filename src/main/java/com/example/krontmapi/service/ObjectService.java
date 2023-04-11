@@ -15,7 +15,6 @@ import com.example.krontmapi.entity.Object;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ObjectService {
@@ -60,8 +59,6 @@ public class ObjectService {
         List<MonitoringResponse> objectsDto = new ArrayList<>();
 
         for (Object obj : objects) {
-
-            log.info("123");
 
             var event = eventRepository.getLastEventsFromObject(obj.getObject_id());
             var tmr = event == null ? 0 : eventRepository.getTomorrowValue(obj.getObject_id(), event.getEvent_date());
