@@ -48,4 +48,13 @@ public class ObjectController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @DeleteMapping()
+    public ResponseEntity deleteObject(@RequestParam Integer object_id) {
+        try {
+            return ResponseEntity.ok(objectService.deleteObject(object_id));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }

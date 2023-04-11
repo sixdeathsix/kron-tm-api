@@ -61,8 +61,10 @@ public class ObjectService {
 
         for (Object obj : objects) {
 
+            log.info("123");
+
             var event = eventRepository.getLastEventsFromObject(obj.getObject_id());
-            var tmr = eventRepository.getTomorrowValue(obj.getObject_id(), event.getEvent_date());
+            var tmr = event == null ? 0 : eventRepository.getTomorrowValue(obj.getObject_id(), event.getEvent_date());
 
             MonitoringResponse objectDto = MonitoringResponse.builder()
                     .object_id(obj.getObject_id())
@@ -70,10 +72,10 @@ public class ObjectService {
                     .object_type(obj.getObjectType().getObject_type())
                     .flange_no(obj.getFlange_no())
                     .description(obj.getDescription())
-                    .event_type(event.getEventType().getEvent_type())
-                    .event_date(event.getEvent_date())
-                    .value(event.getProperty_value() - tmr)
-                    .tomorrow_value(tmr)
+                    .event_type(event == null ? null : event.getEventType().getEvent_type())
+                    .event_date(event == null ? null : event.getEvent_date())
+                    .value(event == null ? null : event.getProperty_value() - tmr)
+                    .tomorrow_value(event == null ? null : tmr)
                     .build();
 
             objectsDto.add(objectDto);
@@ -95,12 +97,16 @@ public class ObjectService {
     public Object createObject(Object object) throws Exception {
 
         var type = objectTypeRepository.findById(object.getObjectType().getObject_type_id());
-
-        log.info(String.valueOf(object.getObjectType()));
         object.setObjectType(type.get());
 
         return objectRepository.save(object);
 
     }
 
+    public Integer deleteObject(Integer id) {
+
+        objectRepository.deleteById(id);
+
+        return id;
+    }
 }
