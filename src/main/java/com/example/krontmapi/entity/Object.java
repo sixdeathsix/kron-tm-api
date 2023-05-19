@@ -22,7 +22,7 @@ public class Object {
     private String flange_no;
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "object_type_id")
     private ObjectType objectType;
     private String loc_x;

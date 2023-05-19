@@ -57,4 +57,13 @@ public class ObjectController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PutMapping()
+    public ResponseEntity updateObject (@RequestBody Object obj) {
+        try {
+            return ResponseEntity.ok(objectService.updateObject(obj));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 }
