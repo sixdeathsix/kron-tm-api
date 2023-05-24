@@ -20,7 +20,7 @@ public class ObjectResponse {
     private String object_type;
     private String flange_no;
     private String description;
-    private String coor_x;
-    private String coor_y;
+    private String loc_x;
+    private String loc_y;
     private List<Property> properties;
 }

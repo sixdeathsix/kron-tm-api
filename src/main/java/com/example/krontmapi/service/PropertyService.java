@@ -3,6 +3,7 @@ package com.example.krontmapi.service;
 import com.example.krontmapi.dto.ObjectPropertiesResponse;
 import com.example.krontmapi.entity.Property;
 import com.example.krontmapi.entity.PropertyType;
+import com.example.krontmapi.entity.ValueType;
 import com.example.krontmapi.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ public class PropertyService {
     private final PropertyTypeRepository propertyTypeRepository;
     private final ObjectRepository objectRepository;
     private final EventRepository eventRepository;
+    private final ValueTypeRepository valueTypeRepository;
 
     public List<ObjectPropertiesResponse> getObjectProperties(Integer id) throws Exception {
 
@@ -38,11 +40,12 @@ public class PropertyService {
             ObjectPropertiesResponse propertyDto = ObjectPropertiesResponse.builder()
                     .flange_no(object.getFlange_no())
                     .property_type(prp.getPropertyType().getProperty_type())
-                    .path(prp.getPath().getPath())
+                    .path(prp.getPath())
                     .value(event == null ? null : event.getProperty_value())
                     .value_type(prp.getProperty_value_type().getValue_type())
                     .event_date(event == null ? null : event.getEvent_date())
                     .event_type(event == null ? null : event.getEventType().getEvent_type())
+                    .property_id(prp.getProperty_id())
                     .build();
 
             propertiesDto.add(propertyDto);
@@ -59,6 +62,27 @@ public class PropertyService {
         }
 
         return properties;
+    }
+
+    public List<ValueType> getAllValues() throws Exception {
+        var values = valueTypeRepository.findAll();
+
+        if (values.isEmpty()) {
+            throw new Exception("Ничего не найдено");
+        }
+
+        return values;
+    }
+
+    public Property addPropertyForObject(Property property) throws Exception {
+        return propertyRepository.save(property);
+    }
+
+    public Integer deleteObjectProperty(Integer property_id) throws Exception {
+
+        propertyRepository.deleteById(property_id);
+
+        return property_id;
     }
 
 }

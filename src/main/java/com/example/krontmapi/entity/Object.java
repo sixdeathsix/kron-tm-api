@@ -1,10 +1,14 @@
 package com.example.krontmapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.parameters.P;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -22,10 +26,13 @@ public class Object {
     private String flange_no;
     private String description;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "object_type_id")
     private ObjectType objectType;
     private String loc_x;
     private String loc_y;
 
+    @OneToMany(mappedBy = "object", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<Property> properties;
 }

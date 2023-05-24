@@ -22,7 +22,6 @@ public class Event {
     private Integer event_id;
 
     private LocalDateTime event_date;
-
     private Float property_value;
 
     @ManyToOne

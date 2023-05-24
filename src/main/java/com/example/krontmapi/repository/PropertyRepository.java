@@ -8,6 +8,5 @@ import java.util.List;
 
 
 public interface PropertyRepository extends JpaRepository<Property, Integer> {
-
     List<Property> findByObject(Object object);
 }

@@ -21,5 +21,5 @@ public class ObjectPropertiesResponse {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime event_date;
     private String event_type;
-
+    private Integer property_id;
 }

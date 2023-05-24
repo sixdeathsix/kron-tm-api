@@ -45,8 +45,8 @@ public class ObjectService {
                     .object_type(obj.getObjectType().getObject_type())
                     .flange_no(obj.getFlange_no())
                     .description(obj.getDescription())
-                    .coor_x(obj.getLoc_x())
-                    .coor_y(obj.getLoc_y())
+                    .loc_x(obj.getLoc_x())
+                    .loc_y(obj.getLoc_y())
                     .properties(properties)
                     .build();
 
