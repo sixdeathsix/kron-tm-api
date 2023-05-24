@@ -1,5 +1,6 @@
 package com.example.krontmapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class Event {
     private Float property_value;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "property_id")
     private Property property;
 

@@ -1,6 +1,7 @@
 package com.example.krontmapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,7 @@ public class Property {
     private ValueType property_value_type;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "object_id", nullable = false)
     private Object object;
 
@@ -36,11 +38,11 @@ public class Property {
     @Column(nullable = false)
     private String path;
 
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<PropertyLog> propertyLogs;
 
-    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonBackReference
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Event> events;
 }

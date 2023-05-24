@@ -1,5 +1,6 @@
 package com.example.krontmapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ public class PropertyLog {
     private LocalDateTime update_date;
 
     @ManyToOne
+    @JsonBackReference
     @JoinColumn(name = "property_id")
     private Property property;
 
