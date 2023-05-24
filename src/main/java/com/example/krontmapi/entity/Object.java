@@ -33,7 +33,7 @@ public class Object {
     private String loc_x;
     private String loc_y;
 
-    @OneToMany(mappedBy = "object", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "object", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<Property> properties;
 }
