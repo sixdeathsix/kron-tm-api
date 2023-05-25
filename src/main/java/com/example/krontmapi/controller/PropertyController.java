@@ -1,7 +1,5 @@
 package com.example.krontmapi.controller;
 
-import com.example.krontmapi.entity.Object;
-import com.example.krontmapi.entity.Property;
 import com.example.krontmapi.service.PropertyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -36,24 +34,6 @@ public class PropertyController {
     public ResponseEntity getAllValues() {
         try {
             return ResponseEntity.ok(propertyService.getAllValues());
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @PostMapping()
-    public ResponseEntity addPropertyToObject(@RequestBody Property property) {
-        try {
-            return ResponseEntity.ok(propertyService.addPropertyForObject(property));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    @DeleteMapping()
-    public ResponseEntity deleteObjectProperty(@RequestParam Integer property_id) {
-        try {
-            return ResponseEntity.ok(propertyService.deleteObjectProperty(property_id));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -13,9 +13,9 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/types")
-    public ResponseEntity getAllEventTypes() {
+    public ResponseEntity getAllCategories() {
         try {
-            return ResponseEntity.ok(categoryService.getAllTypes());
+            return ResponseEntity.ok(categoryService.getAllCategories());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

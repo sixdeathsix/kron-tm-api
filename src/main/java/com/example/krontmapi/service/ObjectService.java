@@ -9,7 +9,6 @@ import com.example.krontmapi.repository.ObjectRepository;
 import com.example.krontmapi.repository.ObjectTypeRepository;
 import com.example.krontmapi.repository.PropertyRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import com.example.krontmapi.entity.Object;
@@ -126,6 +125,5 @@ public class ObjectService {
 
         return objectRepository.save(obj);
     }
-
 
 }

@@ -7,8 +7,6 @@ import com.example.krontmapi.entity.Event;
 import com.example.krontmapi.entity.EventType;
 import com.example.krontmapi.repository.EventRepository;
 import com.example.krontmapi.repository.EventTypeRepository;
-import com.example.krontmapi.repository.ObjectRepository;
-import com.example.krontmapi.repository.PropertyLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -44,42 +42,7 @@ public class EventService {
         return eventsDto;
     }
 
-    public List<ObjectEventsResponse> getObjectEvents(String id, String date_start, String date_end) throws Exception {
-
-        List<ObjectEventsResponse> eventsDto = new ArrayList<>();
-
-        List<Event> events = null;
-
-        if (Objects.equals(date_start, "null") || Objects.equals(date_end, "null")) {
-            events = eventRepository.getListEvents(id);
-        } else {
-            events = eventRepository.getListEventsWithDate(id, date_start, date_end);
-        }
-
-        return getObjectEventsResponses(eventsDto, events);
-    }
-
-    public List<ObjectEventsResponse> getObjectEventsFromObject(Integer id, String date_start, String date_end) throws Exception {
-
-        List<ObjectEventsResponse> eventsDto = new ArrayList<>();
-
-        List<Event> events = null;
-
-        if (Objects.equals(date_start, "null") || Objects.equals(date_end, "null")) {
-            events = eventRepository.getListEventsFromObject(id);
-        } else {
-            events = eventRepository.getListEventsFromObjectWithDate(id, date_start, date_end);
-        }
-
-        return getObjectEventsResponses(eventsDto, events);
-    }
-
-    public List<CheckerBoardResponse> getCheckerBoardFromObject(Integer id, String date) {
-
-        List<CheckerBoardResponse> checkerBoardDto = new ArrayList<>();
-
-        List<Event> events = eventRepository.getCheckerBoardFromObject(id, date);
-
+    private List<CheckerBoardResponse> getCheckerBoardResponses(List<CheckerBoardResponse> checkerBoardDto, List<Event> events) {
         for (Event evt : events) {
 
             var tmr = eventRepository.getTomorrowValue(evt.getProperty().getObject().getObject_id(), evt.getEvent_date());
@@ -97,11 +60,66 @@ public class EventService {
         return checkerBoardDto;
     }
 
-    public List<TwohoursResponse> getTwohoursFromObject(Integer id, String date) {
+    public List<ObjectEventsResponse> getObjectEvents(String id, String date_start, String date_end) throws Exception {
+
+        List<ObjectEventsResponse> eventsDto = new ArrayList<>();
+
+        List<Event> events = null;
+
+        if (Objects.equals(date_start, "null") || Objects.equals(date_end, "null")) {
+            events = eventRepository.getListEvents(id);
+        } else {
+            events = eventRepository.getListEventsWithDate(id, date_start, date_end);
+        }
+
+        if (events.isEmpty()) {
+            throw new Exception("Ничего не найдено");
+        }
+
+        return getObjectEventsResponses(eventsDto, events);
+    }
+
+    public List<ObjectEventsResponse> getObjectEventsFromObject(Integer id, String date_start, String date_end) throws Exception {
+
+        List<ObjectEventsResponse> eventsDto = new ArrayList<>();
+
+        List<Event> events = null;
+
+        if (Objects.equals(date_start, "null") || Objects.equals(date_end, "null")) {
+            events = eventRepository.getListEventsFromObject(id);
+        } else {
+            events = eventRepository.getListEventsFromObjectWithDate(id, date_start, date_end);
+        }
+
+        if (events.isEmpty()) {
+            throw new Exception("Ничего не найдено");
+        }
+
+        return getObjectEventsResponses(eventsDto, events);
+    }
+
+    public List<CheckerBoardResponse> getCheckerBoardFromObject(Integer id, String date) throws Exception {
+
+        List<CheckerBoardResponse> checkerBoardDto = new ArrayList<>();
+
+        List<Event> events = eventRepository.getCheckerBoardFromObject(id, date);
+
+        if (events.isEmpty()) {
+            throw new Exception("Ничего не найдено");
+        }
+
+        return getCheckerBoardResponses(checkerBoardDto, events);
+    }
+
+    public List<TwohoursResponse> getTwohoursFromObject(Integer id, String date) throws Exception {
 
         List<TwohoursResponse> twohoursDto = new ArrayList<>();
 
         List<Event> events = eventRepository.getTwohoursFromObject(id, date);
+
+        if (events.isEmpty()) {
+            throw new Exception("Ничего не найдено");
+        }
 
         for (Event evt : events) {
 
@@ -121,27 +139,17 @@ public class EventService {
         return twohoursDto;
     }
 
-    public List<CheckerBoardResponse> getTrendsFromObject(String start, String end, Integer id) {
+    public List<CheckerBoardResponse> getTrendsFromObject(String start, String end, Integer id) throws Exception {
 
         List<CheckerBoardResponse> trendsBoardDto = new ArrayList<>();
 
         List<Event> events = eventRepository.getTrends(start, end, id);
 
-        for (Event evt : events) {
-
-            var tmr = eventRepository.getTomorrowValue(evt.getProperty().getObject().getObject_id(), evt.getEvent_date());
-
-            CheckerBoardResponse dto = CheckerBoardResponse.builder()
-                    .object_id(evt.getProperty().getObject().getObject_id())
-                    .object_name(evt.getProperty().getObject().getObject_name())
-                    .event_date(evt.getEvent_date())
-                    .value(evt.getProperty_value() - tmr)
-                    .build();
-
-            trendsBoardDto.add(dto);
+        if (events.isEmpty()) {
+            throw new Exception("Ничего не найдено");
         }
 
-        return trendsBoardDto;
+        return getCheckerBoardResponses(trendsBoardDto, events);
     }
 
     public List<EventType> getAllTypes() throws Exception {

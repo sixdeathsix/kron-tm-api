@@ -12,7 +12,7 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
 
-    public List<Category> getAllTypes() throws Exception {
+    public List<Category> getAllCategories() throws Exception {
         var categories = categoryRepository.findAll();
 
         if (categories.isEmpty()) {

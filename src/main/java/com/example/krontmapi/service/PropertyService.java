@@ -74,15 +74,4 @@ public class PropertyService {
         return values;
     }
 
-    public Property addPropertyForObject(Property property) throws Exception {
-        return propertyRepository.save(property);
-    }
-
-    public Integer deleteObjectProperty(Integer property_id) throws Exception {
-
-        propertyRepository.deleteById(property_id);
-
-        return property_id;
-    }
-
 }
